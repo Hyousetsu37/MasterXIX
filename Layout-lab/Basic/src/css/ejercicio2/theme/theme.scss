@@ -1,0 +1,37 @@
+@use "sass:color";
+@use "../base/variables2.scss" as b;
+
+.box {
+  border-radius: b.$border-radius;
+}
+
+.base {
+  background-color: b.$base-color;
+  color: b.$text-base-color;
+}
+
+.important {
+  background-color: color.adjust($color: b.$base-color, $lightness: -25%);
+  color: color.adjust($color: b.$text-base-color, $lightness: 25%);
+}
+.warning {
+  background-color: color.adjust($color: b.$base-color, $lightness: 25%);
+  color: color.adjust($color: b.$text-base-color, $lightness: -15%);
+}
+
+.shadow {
+  box-shadow: b.$shadow;
+}
+
+.fonts {
+  text-align: start;
+  text-wrap: nowrap;
+
+  .primary-font {
+    font-family: b.$primary-font;
+    margin-bottom: 10px;
+  }
+  .secondary-font {
+    font-family: b.$secondary-font;
+  }
+}
