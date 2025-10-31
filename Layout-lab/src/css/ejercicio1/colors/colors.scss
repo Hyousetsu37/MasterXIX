@@ -1,0 +1,23 @@
+@use "sass:color";
+@use "../base/variables.scss" as b;
+
+@for $i from 1 through 4 {
+  .darken-#{$i} {
+    background-color: color.adjust($color: b.$base-color, $lightness: -$i * 5%);
+    color: color.adjust($color: b.$text-base-color, $lightness: $i * 7%);
+  }
+}
+
+@for $i from 1 through 4 {
+  .lighten-#{$i} {
+    background-color: color.adjust($color: b.$base-color, $lightness: $i * 5%);
+    color: color.adjust($color: b.$text-base-color, $lightness: -$i * 7%);
+  }
+}
+
+.base-color {
+  background-color: b.$base-color;
+  .color-box-text {
+    color: white;
+  }
+}
