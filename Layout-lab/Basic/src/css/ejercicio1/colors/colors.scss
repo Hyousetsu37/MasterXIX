@@ -13,9 +13,7 @@
         );
         color: color.adjust($color: b.$text-base-color, $lightness: $i * 7%);
       }
-    }
 
-    @for $i from 1 through 4 {
       & .lighten-#{$i} {
         background-color: color.adjust(
           $color: $current-color,
@@ -24,6 +22,7 @@
         color: color.adjust($color: b.$text-base-color, $lightness: -$i * 7%);
       }
     }
+
     & .base-color {
       background-color: $current-color;
       .color-box-text {

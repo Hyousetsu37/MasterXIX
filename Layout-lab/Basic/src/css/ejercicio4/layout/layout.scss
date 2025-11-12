@@ -28,9 +28,9 @@ main {
   grid-template-rows: 2fr 1fr 2fr repeat(2, 1fr);
   grid-template-areas:
     "image image"
-    "title ."
+    "title title"
     "description description"
-    ". publish"
+    "publish publish"
     "button button";
   align-items: center;
   justify-content: space-around;
@@ -59,7 +59,7 @@ main {
 }
 
 .published {
-  justify-self: start;
+  justify-self: end;
   align-self: center;
   grid-area: publish;
   text-wrap: nowrap;

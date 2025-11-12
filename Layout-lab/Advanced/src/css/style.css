@@ -1,0 +1,83 @@
+@import url("./vendors/normalize.css");
+@import url("./vendors/reset.css");
+
+body {
+  background-color: #141414;
+  width: 100vw;
+  color: #eee;
+  font-family: "Jost", sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+  padding: 16px;
+
+  .header-logo {
+    display: flex;
+    align-items: center;
+    height: 100%;
+
+    img {
+      align-self: stretch;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .platform-title {
+      padding: 16px;
+    }
+  }
+
+  .header-buttons {
+    display: flex;
+    gap: 8px;
+  }
+}
+
+main {
+  .section-title {
+    margin-top: 16px;
+    #top-text::after {
+      content: "5";
+      font-weight: bold;
+    }
+  }
+
+  .top {
+    display: flex;
+    padding-inline: 16px;
+    flex-direction: row-reverse;
+    gap: 16px;
+    padding-bottom: 8px;
+    img {
+      min-width: 225px;
+    }
+  }
+
+  .first,
+  .second {
+    width: 100%;
+    display: flex;
+    padding-block: 8px;
+    gap: 2px;
+
+    img {
+      min-width: 250px;
+      transition: transform 300ms ease-in-out;
+
+      &:hover {
+        transform: scale(1.07);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .first,
+  .second {
+    flex-wrap: wrap;
+  }
+}

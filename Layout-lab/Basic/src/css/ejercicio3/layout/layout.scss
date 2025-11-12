@@ -5,12 +5,13 @@
 body {
   height: 100vh;
   width: 100vw;
-  @include m.FlexCenter(column);
+  display: flex;
+  flex-direction: column;
   justify-content: start;
 }
 
 header {
-  width: 100vw;
+  width: 100%;
   padding-inline: 8px;
   gap: 10px;
   @include m.FlexCenter(column);
