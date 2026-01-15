@@ -1,0 +1,128 @@
+@import url("./vendors/normalize.css");
+@import url("./vendors/reset.css");
+
+:root {
+  --background: #121212;
+  --sidebar_header: #1e1e1e;
+  --cards: #2c2c2c;
+  --text: #e0e0e0;
+  --accent: #ccff00;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(
+    --background
+  ); /* Ensures bg is dark even if content is short */
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 4px;
+
+  input {
+    border-radius: 8px;
+
+    &:focus {
+      border: 1px solid aqua;
+    }
+  }
+}
+
+.page-title {
+  background-color: var(--sidebar_header);
+  color: var(--text);
+  padding: 20px 8px;
+  font-size: large;
+}
+
+.page-container {
+  display: flex;
+  flex-grow: 1;
+  nav {
+    background-color: var(--sidebar_header);
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.menu-container {
+  width: 20vw;
+
+  ul li {
+    background-color: var(--cards);
+    padding: 8px 4px;
+    border-bottom: 1px solid #aaaaaa7f;
+    color: var(--text);
+    transition: all 300ms ease-in;
+
+    &:hover {
+      background-color: var(--accent);
+      color: var(--sidebar_header);
+      cursor: pointer;
+    }
+  }
+}
+
+.menu-title {
+  background-color: var(--sidebar_header);
+  color: #e0e0e0;
+  text-align: center;
+  padding: 4px 8px;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+main {
+  background-color: var(--background);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.list {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+  gap: 20px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 250px;
+  height: 150px;
+  background-color: #2c2c2c;
+  border: 2px solid #888;
+  color: var(--text);
+
+  img {
+    width: 40%;
+    border-radius: 50%;
+  }
+}
+
+.member-name {
+  text-align: center;
+}
+
+.display-name {
+  color: var(--text);
+}
+
+footer {
+  width: 40px;
+  background-color: grey;
+}
