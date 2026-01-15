@@ -123,6 +123,11 @@ main {
 }
 
 footer {
-  width: 40px;
+  display: flex;
+  align-items: center;
+  padding-inline: 10px;
+  height: 40px;
   background-color: grey;
+  color: var(--accent);
+  font-weight: bold;
 }
