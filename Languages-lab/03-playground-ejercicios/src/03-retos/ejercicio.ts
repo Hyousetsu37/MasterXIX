@@ -1,3 +1,4 @@
-console.log("************** CHALLENGES *********************");
-console.log("Use this folder 02 challenges to practice with challenge exercises");
-console.log("You can add new files as long as they are imported from index.ts");
+import "./reto-01.js";
+import "./reto-02.js";
+import "./reto-03.js";
+import "./reto-04.js";
