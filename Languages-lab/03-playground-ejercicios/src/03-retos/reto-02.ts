@@ -63,9 +63,6 @@ console.log(
 );
 
 const newObj = {};
-
-console.log("aaaa");
-
 /* const deepSetTest = (valueToSave, obj, ...arg) => {
   if (arg.length === 0) {
     return obj;
