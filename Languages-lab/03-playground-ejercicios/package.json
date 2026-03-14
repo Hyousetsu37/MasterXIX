@@ -26,8 +26,8 @@
     "url": "git+https://github.com/Lemoncode/master-frontend-lemoncode.git"
   },
   "scripts": {
-    "prestart": "npm run transpile && npm run copy",
-    "start": "concurrently \"npm:transpile -- -w\" npm:devserver",
+    "prestart": "pnpm run transpile && pnpm run copy",
+    "start": "concurrently \"pnpm:transpile -w\" pnpm:devserver",
     "copy": "copyfiles --flat src/**/*.{html,css} transpiled",
     "transpile": "tsc",
     "devserver": "browser-sync start -c bs-config.json"
