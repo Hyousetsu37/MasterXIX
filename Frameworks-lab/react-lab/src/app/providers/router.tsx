@@ -1,12 +1,10 @@
 import { useSessionModel } from '@entities/session/model/sessionContext';
 import { LoginPage } from '@pages/login';
+import { OrganizationPage } from '@pages/organization/ui/OrganizationPage';
 import { MainLayout } from '@widgets/layout/ui/MainLayout';
 import type { ReactNode } from 'react';
 import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom';
 
-const OrganizationPage = () => {
-  return <h1>Organization</h1>;
-};
 const MemberDetailsPage = () => {
   return <h1>Organization</h1>;
 };

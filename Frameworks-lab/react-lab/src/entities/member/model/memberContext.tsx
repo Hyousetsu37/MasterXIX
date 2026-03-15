@@ -15,12 +15,14 @@ export const MemberProvider = ({ children }: { children: ReactNode }) => {
   const [members, setMembers] = useState<Member[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [currentOrg, setCurrentOrg] = useState<string | null>(null);
 
   const loadOrganization = useCallback(async (orgName: string) => {
     setIsLoading(true);
     setError(null);
     try {
       const data = await getOrganizationMembers(orgName);
+      setCurrentOrg(orgName);
       setMembers(data);
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -68,6 +70,7 @@ export const MemberProvider = ({ children }: { children: ReactNode }) => {
         error,
         loadOrganization,
         getUserFromCacheOrApi,
+        currentOrg,
       }}
     >
       {children}

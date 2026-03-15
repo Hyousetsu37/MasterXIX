@@ -4,6 +4,7 @@ import { Button } from '@shared/ui/button/Button';
 import { ErrorDisplay } from '@shared/ui/error-display/ErrorDisplay';
 import { Input } from '@shared/ui/input';
 import { useEffect, useState } from 'react';
+import style from './SearchOrganization.module.css';
 
 export const SearchOrganization = () => {
   const [searchTerm, setSearchTerm] = useState('lemoncode');
@@ -27,9 +28,9 @@ export const SearchOrganization = () => {
     setSearchTerm(e.target.value);
   };
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
+    <div className={style.searchContainer}>
+      <form onSubmit={handleSubmit} className={style.formGroup}>
+        <div className={style.inputWrapper}>
           <Input
             id="orgSearch"
             type="text"
@@ -37,6 +38,8 @@ export const SearchOrganization = () => {
             placeholder="Busca tu organizacion"
             onChange={handleChange}
           />
+        </div>
+        <div className={style.buttonWrapper}>
           <Button type="submit">Buscar</Button>
         </div>
         {isLoading && <span>Buscando...</span>}

@@ -30,6 +30,7 @@ export interface MemberContextValue {
   users: Member[];
   isLoading: boolean;
   error: string | null;
+  currentOrg: string | null;
   loadOrganization: (orgName: string) => Promise<void>;
   getUserFromCacheOrApi: (username: string) => Promise<Member | null>;
 }
