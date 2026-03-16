@@ -1,6 +1,7 @@
 import { useMemberModel } from '@entities/member/model/memberContext';
 import { OrganizationCard } from '@entities/organization/ui/OrganizationCard';
 import { SearchOrganization } from '@features/searchOrganization/ui/SearchOrganization';
+import { MemberList } from '@widgets/memberList/ui/MemberList';
 import styles from './OrganizationPage.module.css';
 
 export const OrganizationPage = () => {
@@ -20,7 +21,7 @@ export const OrganizationPage = () => {
       )}
 
       <section className={styles.listSection}>
-        <p>List</p>
+        <MemberList />
       </section>
     </div>
   );

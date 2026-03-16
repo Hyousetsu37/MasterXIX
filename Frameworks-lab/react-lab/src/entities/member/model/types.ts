@@ -27,7 +27,7 @@ export interface Member {
 }
 
 export interface MemberContextValue {
-  users: Member[];
+  members: Member[];
   isLoading: boolean;
   error: string | null;
   currentOrg: string | null;

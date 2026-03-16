@@ -65,7 +65,7 @@ export const MemberProvider = ({ children }: { children: ReactNode }) => {
   return (
     <MemberContext.Provider
       value={{
-        users: members,
+        members,
         isLoading,
         error,
         loadOrganization,
