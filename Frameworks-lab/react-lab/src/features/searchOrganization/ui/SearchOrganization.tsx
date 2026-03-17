@@ -7,15 +7,18 @@ import { useEffect, useState } from 'react';
 import style from './SearchOrganization.module.css';
 
 export const SearchOrganization = () => {
-  const [searchTerm, setSearchTerm] = useState('lemoncode');
+  const { loadOrganization, isLoading, error, currentOrg } = useMemberModel();
+  const [searchTerm, setSearchTerm] = useState(currentOrg || 'lemoncode');
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
-  const { loadOrganization, isLoading, error } = useMemberModel();
 
   useEffect(() => {
-    if (debouncedSearchTerm.trim()) {
+    if (
+      debouncedSearchTerm.trim() &&
+      debouncedSearchTerm.trim() !== currentOrg
+    ) {
       loadOrganization(debouncedSearchTerm.trim());
     }
-  }, [loadOrganization, debouncedSearchTerm]);
+  }, [loadOrganization, debouncedSearchTerm, currentOrg]);
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
