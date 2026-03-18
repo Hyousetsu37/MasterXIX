@@ -77,4 +77,9 @@ export interface MemberContextValue {
   members: MemberListEntity[];
   currentOrg: string;
   loadOrganization: (organization: string) => void;
+  perPage: number;
+  page: number;
+  hasMoreMembers: boolean;
+  changePerPage: (perPage: number) => void;
+  changePage: (page: number) => void;
 }

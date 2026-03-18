@@ -9,12 +9,23 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  TablePagination,
   TableRow,
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 
 export const MemberList = () => {
-  const { members, isLoading } = useMemberListModel();
+  const {
+    members,
+    isLoading,
+    page,
+    perPage,
+    changePage,
+    changePerPage,
+    hasMoreMembers,
+  } = useMemberListModel();
+
+  const dynamicCount = hasMoreMembers ? -1 : page * perPage + members.length;
 
   return (
     <>
@@ -35,6 +46,18 @@ export const MemberList = () => {
             )}
           </TableBody>
         </Table>
+        <TablePagination
+          component="div"
+          count={dynamicCount}
+          page={page}
+          onPageChange={(_, newPage) => changePage(newPage)}
+          rowsPerPage={perPage}
+          onRowsPerPageChange={(event) =>
+            changePerPage(parseInt(event.target.value, 10))
+          }
+          rowsPerPageOptions={[5, 10, 20]}
+          labelRowsPerPage="Members per page:"
+        />
       </TableContainer>
 
       <Button
