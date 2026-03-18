@@ -1,5 +1,5 @@
-import { MemberDetailsWidget } from '@widgets/memberProfile/ui/MemberDetailsWidget';
 import { Box, Button, Typography } from '@mui/material';
+import { MemberDetailsWidget } from '@widgets/memberProfile';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export const DetailPage: React.FC = () => {

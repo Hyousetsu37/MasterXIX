@@ -1,8 +1,8 @@
-export const baseClient = async <T>(
+export const baseCharacter = async <T>(
   endpoint: string,
   { ...customConfig }: RequestInit,
 ): Promise<T> => {
-  const baseURL = import.meta.env.VITE_API_BASE_GITHUB_URL;
+  const baseURL = import.meta.env.VITE_API_BASE_RICKYMORTY_URL;
   const headers = {
     'Content-Type': 'application/json',
     ...customConfig.headers,

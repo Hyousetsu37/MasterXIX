@@ -1,6 +1,6 @@
+import { MemberDetailCard } from '@entities/member';
 import { getSingleMember } from '@entities/member/api/getSingleMember';
 import type { MemberDetailEntity } from '@entities/member/model/type';
-import { MemberDetailCard } from '@entities/member/ui/MemberDetailCard';
 import { Alert, Box, CircularProgress } from '@mui/material';
 import { useEffect, useState } from 'react';
 
