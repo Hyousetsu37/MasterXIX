@@ -1,18 +1,15 @@
+import { useCartModel } from '@entities/cart/model/cartContext';
 import type { PictureInfo } from '@entities/picture/model/type';
 import { PictureCard } from '@entities/picture/ui/PictureCard';
+import { ToggleCartButton } from '@features/toggle-cart-item/ui/ToggleCartButton';
 import { Box } from '@mui/material';
 
 interface PictureListProps {
 	pictureList: PictureInfo[];
-	onTogglePicture: (id: string) => void;
-	selectedPictures: string[];
 }
 
-export const PictureList = ({
-	pictureList,
-	onTogglePicture,
-	selectedPictures,
-}: PictureListProps) => {
+export const PictureList = ({ pictureList }: PictureListProps) => {
+	const { selectedIds } = useCartModel();
 	return (
 		<Box
 			sx={{
@@ -28,8 +25,8 @@ export const PictureList = ({
 					id={item.id}
 					picUrl={item.picUrl}
 					title={item.title}
-					isSelected={selectedPictures.includes(item.id)}
-					onToggle={onTogglePicture}
+					isSelected={selectedIds.includes(item.id)}
+					actionSlot={<ToggleCartButton pictureId={item.id} />}
 				/>
 			))}
 		</Box>

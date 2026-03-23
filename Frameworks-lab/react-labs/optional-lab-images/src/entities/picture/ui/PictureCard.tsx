@@ -1,20 +1,13 @@
-import {
-	Box,
-	Card,
-	CardContent,
-	CardMedia,
-	Checkbox,
-	FormControlLabel,
-	Typography,
-} from '@mui/material';
+import { Box, Card, CardContent, CardMedia, Typography } from '@mui/material';
+import type { ReactNode } from 'react';
 import type { PictureInfo } from '../model/type';
 
 interface PictureCardProps extends PictureInfo {
 	isSelected: boolean;
-	onToggle: (id: string) => void;
+	actionSlot: ReactNode;
 }
 
-export const PictureCard = ({ id, title, picUrl, isSelected, onToggle }: PictureCardProps) => {
+export const PictureCard = ({ title, picUrl, isSelected, actionSlot }: PictureCardProps) => {
 	return (
 		<Card
 			sx={{
@@ -38,14 +31,7 @@ export const PictureCard = ({ id, title, picUrl, isSelected, onToggle }: Picture
 				<Typography variant="h6" component="div" gutterBottom>
 					{title}
 				</Typography>
-				<Box sx={{ display: 'flex', alignItems: 'center' }}>
-					<FormControlLabel
-						control={
-							<Checkbox checked={isSelected} onChange={() => onToggle(id)} color="primary" />
-						}
-						label="Buy"
-					/>
-				</Box>
+				<Box sx={{ display: 'flex', alignItems: 'center' }}>{actionSlot}</Box>
 			</CardContent>
 		</Card>
 	);
