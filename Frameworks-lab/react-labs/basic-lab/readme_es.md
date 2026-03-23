@@ -1,129 +1,63 @@
-# 04 Details
+# React Básico - Laboratorio: Filtrado de Organización de GitHub y Rick & Morty
 
-## Resumen
+Este proyecto es la resolución del laboratorio básico del módulo de React. Consiste en una aplicación web que permite buscar miembros de organizaciones de GitHub, así como explorar personajes del universo de Rick and Morty, cumpliendo con todos los requisitos básicos y opcionales propuestos.
 
-Este ejemplo toma como punto de partida el ejemplo _03-list_.
+## 🚀 Características Implementadas
 
-Vamos a mostrar el detalle de un usuario de Github: para ellos
-nos quedamos con el id del usuario que elegimos en la lista,
-llamamos a la API de Github para obtener sus detalles, y los
-mostramos en un componente.
+### Requisitos Básicos Completados
+- [x] **Listado por defecto:** Al cargar la aplicación, se muestra el listado de miembros de la organización `lemoncode`.
+- [x] **Búsqueda por organización:** Incluye un buscador que permite introducir el nombre de cualquier organización de GitHub (ej. `microsoft`) y actualizar el listado.
+- [x] **Persistencia de estado:** Al navegar a la página de detalle de un miembro y volver atrás, se mantiene el término de búsqueda tecleado y la página actual gracias al uso del Context API.
 
-## Paso a Paso
+### Puntos Opcionales Completados (Bonus)
+- [x] **Paginación:** Implementada en la vista de la lista de miembros de la organización.
+- [x] **Material UI (MUI):** Toda la interfaz de usuario ha sido construida utilizando componentes de `@mui/material` para un diseño limpio y responsivo.
+- [x] **API de Rick and Morty:** Creación de una ruta y página independiente para listar los personajes de la serie utilizando su API REST.
+- [x] **Búsqueda de Personajes:** Implementación de búsqueda filtrada por nombre de personaje.
+- [x] **Hook `useDebounce`:** Creación de un custom hook genérico para retrasar la petición de búsqueda al escribir, optimizando el rendimiento y evitando llamadas excesivas a la API.
+- [x] **Páginas de Detalle:** Implementación de vistas detalladas separadas tanto para los miembros de GitHub como para los personajes de Rick and Morty.
 
-- Primero copiamos el ejemplo anterior, y hacemos un _npm install_
+## 🛠️ Tecnologías Utilizadas
 
-```bash
-npm install
-```
+- **Core:** React 19 (`^19.2.4`) y TypeScript.
+- **Enrutamiento:** React Router DOM v7 (`^7.13.1`) utilizando el nuevo estándar `createBrowserRouter`.
+- **Estilos y UI:** Material UI (`@mui/material`) y Emotion.
+- **Bundler:** Vite.
+- **Linter & Formatter:** Biome (`@biomejs/biome`), configurado para asegurar la calidad y consistencia del código.
 
-- Si queremos ver qué tipo de datos vamos a manejar, podemos abrir el navegador web y ver que devuelve la API Rest de Github.
+## 🏗️ Arquitectura del Proyecto
 
-```bash
-https://api.github.com/users/brauliodiez
-```
+El proyecto está estructurado siguiendo los principios de **Feature-Sliced Design (FSD)**, lo que promueve una alta escalabilidad y un bajo acoplamiento entre módulos.
 
-**EJERCICIO**
-> Con lo que has hecho en ejemplos anteriores sería capaz de montar
-> esta página tu sólo, te aconsejo que les des a la pause en este
-> ejercicio y lo pruebes.
+La estructura principal es la siguiente:
+- `@app`: Configuración global, proveedores (providers) y enrutador (router).
+- `@pages`: Vistas completas de la aplicación (Listados y Detalles).
+- `@widgets`: Bloques de UI compuestos e independientes (ej. Layouts, Listas de miembros/personajes).
+- `@features`: Funcionalidades que aportan valor al usuario (ej. Barras de búsqueda).
+- `@entities`: Lógica de negocio, modelos de datos, llamadas a API (fetch) y estado (Context) de las entidades de dominio (Members, Characters).
+- `@shared`: Elementos reusables en todo el proyecto (componentes UI base como el SearchBar, utilidades, hooks como `useDebounce` y clientes API base).
 
-- Vamos a crearnos un interfaz para tener tipada para mostrar
-  los detalles de un miembro.
+## 💻 Instalación y Ejecución
 
-_./src/detail.tsx_
+1. Clona el repositorio y navega el directorio del proyecto:
+   ```cd basic-lab```
+2. Instala las dependencias:
+``` npm install #(Nota: También puedes usar pnpm o bun si lo prefieres). ```
+3. Ejecuta el servidor de desarrollo:
+``` npm run dev # or if using bun: bun run dev ```
+4. Abre tu navegador en http://localhost:5173 (o el puerto que indique Vite en la consola).
 
-```diff
-import React from "react";
-import { Link } from "react-router-dom";
+Available Scripts
 
-+ interface MemberDetailEntity {
-+   id : string;
-+   login: string;
-+   name: string;
-+   company: string;
-+   bio: string;
-+ }
-+
-+ const createDefaultMemberDetail = () => ({
-+   id: '',
-+   login: '',
-+   name: '',
-+   company: '',
-+   bio: '',
-+ })
-+
-export const DetailPage: React.FC = () => {
-+  const [member, setMember] = React.useState<MemberDetailEntity>(createDefaultMemberDetail());
-  const { id } = useParams();
+```npm run dev``` - Inicia el servidor de desarrollo Vite.
 
-  return (
-    <>
-      <h2>Hello from Detail page</h2>
-      <h3>User Id: {id}</h3>
-      <Link to="/list">Back to list page</Link>
-    </>
-  );
-};
-```
+```npm run build``` - Compila la aplicación para producción.
 
-- Vamos ahora a hacer la carga de datos:
+```npm run lint``` - Ejecuta Biome para encontrar problemas en el código.
 
-_./src/detail.tsx_
+```npm run lint:fix``` - Ejecuta Biome y repara los problemas de linting automáticamente.
 
-```diff
-export const DetailPage: React.FC = () => {
-  const [member, setMember] = React.useState<MemberDetailEntity>();
-  const { id } = useParams();
+```npm run format``` - Formatea el código fuente utilizando Biome.
 
-+  React.useEffect(() => {
-+    fetch(`https://api.github.com/users/${id}`)
-+      .then((response) => response.json())
-+      .then((json) => setMember(json));
-+  }, []);
+```npm run preview```- Inicia un servidor local estático para previsualizar el build de producción.
 
-
-  return (
-    <>
-      <h2>Hello from Detail page</h2>
-      <h3>User Id: {id}</h3>
-      <Link to="/list">Back to list page</Link>
-    </>
-  );
-};
-```
-
-- Vamos a mostrar los datos:
-
-_./src/detail.tsx_
-
-```diff
-export const DetailPage: React.FC = () => {
-  const [member, setMember] = React.useState<MemberDetailEntity>();
-  const { id } = useParams();
-
-  return (
-    <>
-      <h2>Hello from Detail page</h2>
--      <h3>User Id: {id}</h3>
-+      <p> id: {member.id}</p>
-+      <p> login: {member.login}</p>
-+      <p> name: {member.name}</p>
-+      <p> company: {member.company}</p>
-+      <p> bio: {member.bio}</p>
-      <Link to="/list">Back to list page</Link>
-    </>
-  );
-};
-```
-
-# ¿Te apuntas a nuestro máster?
-
-Si te ha gustado este ejemplo y tienes ganas de aprender Front End
-guiado por un grupo de profesionales ¿Por qué no te apuntas a
-nuestro [Máster Front End Online Lemoncode](https://lemoncode.net/master-frontend#inicio-banner)? Tenemos tanto edición de convocatoria
-con clases en vivo, como edición continua con mentorización, para
-que puedas ir a tu ritmo y aprender mucho.
-
-Y si tienes ganas de meterte una zambullida en el mundo _devops_
-apúntate nuestro [Bootcamp devops online Lemoncode](https://lemoncode.net/bootcamp-devops#bootcamp-devops/inicio)
