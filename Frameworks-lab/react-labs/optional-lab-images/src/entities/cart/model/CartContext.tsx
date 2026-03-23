@@ -1,36 +1,24 @@
-import { usePictureModel } from '@entities/picture/model/pictureContext';
-import type { PictureInfo } from '@entities/picture/model/type';
-import {
-	createContext,
-	type ReactNode,
-	useCallback,
-	useContext,
-	useEffect,
-	useMemo,
-	useState,
-} from 'react';
+import { createContext, type ReactNode, useCallback, useContext, useMemo, useState } from 'react';
 import type { CartContextValues } from './type';
 
 const CartContext = createContext<CartContextValues | null>(null);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-	const [picturesInCart, setPicturesInCart] = useState<PictureInfo[]>([]);
-	const { pictures, selectedIds, onTogglePicture, setSelectedIds } = usePictureModel();
 	const [isVisible, setIsVisible] = useState(true);
+	const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
-	useEffect(() => {
-		const selectedPictures = pictures.filter((picture) => selectedIds.includes(picture.id));
-		setPicturesInCart(selectedPictures);
-	}, [selectedIds, pictures]);
-
-	const onDeletePicture = useCallback(
+	const toggleCartItem = useCallback(
 		(id: string) => {
-			setPicturesInCart((currentPicturesInCart) =>
-				currentPicturesInCart.filter((pictureInCart) => pictureInCart.id !== id),
-			);
-			onTogglePicture(id);
+			setSelectedIds((currentIds) => {
+				const isIdInArray = selectedIds.includes(id);
+				if (isIdInArray) {
+					return currentIds.filter((currentID) => currentID !== id);
+				} else {
+					return [...currentIds, id];
+				}
+			});
 		},
-		[onTogglePicture],
+		[selectedIds],
 	);
 
 	const toggleVisible = useCallback(() => {
@@ -39,17 +27,17 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
 	const emptyBasket = useCallback(() => {
 		setSelectedIds([]);
-	}, [setSelectedIds]);
+	}, []);
 
 	const contextValue = useMemo(
 		() => ({
-			picturesInCart,
-			onDeletePicture,
+			selectedIds,
+			toggleCartItem,
 			isVisible,
 			onToggle: toggleVisible,
 			onEmptyBasket: emptyBasket,
 		}),
-		[picturesInCart, onDeletePicture, isVisible, toggleVisible, emptyBasket],
+		[isVisible, toggleVisible, emptyBasket, selectedIds, toggleCartItem],
 	);
 	return <CartContext.Provider value={contextValue}>{children}</CartContext.Provider>;
 };

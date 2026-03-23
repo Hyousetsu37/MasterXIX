@@ -1,6 +1,6 @@
+import { appRoutes } from '@app/providers/appRoutes.routes';
 import { AppBar, Box, Container, Toolbar, Typography } from '@mui/material';
 import { NavButton } from './NavButton';
-import { appRoutes } from '@app/providers/appRoutes.routes';
 import { ShowCartButton } from './ShowCartButton';
 
 export const Navbar = () => {

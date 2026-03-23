@@ -1,73 +1,54 @@
-# React + TypeScript + Vite
+# 🐾 Digital Pet Image Marketplace
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, interactive React application built to browse and "purchase" curated images of kitties and puppies. This project demonstrates advanced state management, component composition, and modern frontend architecture.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+* **Global Shopping Cart:** A persistent, collapsible shopping cart accessible from anywhere in the app, allowing users to review their selected items.
+* **Synchronized State:** Checkbox states on the product grids are perfectly synchronized with the global cart. Removing an item from the cart instantly unchecks it on the product page.
+* **Optimized Rendering:** utilizises `useMemo` for cart calculations, ensuring smooth performance and minimizing unnecessary re-renders.
+* **Full Checkout Flow:** Includes a dedicated checkout page to review orders and complete the simulated purchase.
+* **Dark Mode UI:** Styled from the ground up using Material UI (MUI) with a custom, sleek dark theme.
 
-## React Compiler
+## 🏗️ Architecture: Feature-Sliced Design (FSD)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This project strictly adheres to **Feature-Sliced Design (FSD)** principles to maintain a decoupled and scalable codebase. 
 
-## Expanding the ESLint configuration
+* **`app/`**: Global setup, routing configuration (`react-router`), and theme providers.
+* **`pages/`**: Routable components (`WelcomePage`, `KittiesPage`, `PuppiesPage`, `CheckoutPage`) that compose widgets.
+* **`widgets/`**: High-level structural blocks (`Navbar`, `Cart`, `PictureList`) that orchestrate logic between multiple entities.
+* **`entities/`**: Isolated domain models and contexts (`cart`, `picture`) that manage their own specific state and mock data without cross-contamination.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠️ Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+* **Core:** React 19, TypeScript, Vite
+* **Routing:** React Router v7
+* **Styling & UI:** Material UI (MUI), Emotion
+* **Linting & Formatting:** Biome
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 🚀 Getting Started
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Prerequisites
+Make sure you have [Node.js](https://nodejs.org/) installed. This project also includes a `bun.lock` file, meaning it was optimized for the [Bun](https://bun.sh/) runtime, though standard `npm` or `yarn` will work perfectly fine.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Installation
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. Clone the repository and navigate into the project directory:
+   ```cd optional-lab-images```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+2. Install the dependencies:
+``` npm install #or if using bun: bun install ```
+3. Start the development server: 
+``` npm run dev # or if using bun: bun run dev ```
+4. Open your browser and visit http://localhost:5173/ (or the port Vite provides in your terminal).
+
+Available Scripts
+
+```npm run dev``` - Starts the Vite development server.
+
+```npm run build``` - Compiles TypeScript and builds the app for production.
+
+```npm run lint``` - Runs Biome to check for formatting and linting errors.
+
+```npm run lint:fix``` - Runs Biome to automatically fix linting errors.
+

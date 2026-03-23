@@ -1,9 +1,24 @@
-import { Button, Box, Divider, List, Typography } from '@mui/material';
+import { appRoutes } from '@app/providers/appRoutes.routes';
 import { useCartModel } from '@entities/cart/model/cartContext';
 import { CartRow } from '@entities/cart/ui/CartRow';
+import { usePictureModel } from '@entities/picture/model/pictureContext';
+import { Box, Button, Divider, List, Typography } from '@mui/material';
+import { useMemo } from 'react';
+import { useNavigate } from 'react-router';
 
 export const Cart = () => {
-	const { picturesInCart, onDeletePicture, onEmptyBasket } = useCartModel();
+	const { selectedIds, toggleCartItem, onEmptyBasket, onToggle } = useCartModel();
+	const { pictures } = usePictureModel();
+	const navigate = useNavigate();
+
+	const picturesInCart = useMemo(() => {
+		return pictures.filter((picture) => selectedIds.includes(picture.id));
+	}, [selectedIds, pictures]);
+
+	const handleCheckoutClick = () => {
+		onToggle();
+		navigate(appRoutes.checkout);
+	};
 
 	return (
 		<Box sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -30,11 +45,24 @@ export const Cart = () => {
 					</Typography>
 				</Box>
 			) : (
-				<List disablePadding sx={{ flexGrow: 1, overflowY: 'auto' }}>
-					{picturesInCart.map((item) => (
-						<CartRow key={item.id} item={item} onDelete={onDeletePicture} />
-					))}
-				</List>
+				<>
+					<List disablePadding sx={{ flexGrow: 1, overflowY: 'auto' }}>
+						{picturesInCart.map((item) => (
+							<CartRow key={item.id} item={item} onDelete={toggleCartItem} />
+						))}
+					</List>
+					<Box sx={{ pt: 2, mt: 'auto' }}>
+						<Button
+							variant="contained"
+							color="primary"
+							fullWidth
+							size="large"
+							onClick={handleCheckoutClick}
+						>
+							Go to Checkout
+						</Button>
+					</Box>
+				</>
 			)}
 		</Box>
 	);

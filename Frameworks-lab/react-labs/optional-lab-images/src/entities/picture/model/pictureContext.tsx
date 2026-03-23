@@ -1,12 +1,5 @@
-import {
-	createContext,
-	type ReactNode,
-	useCallback,
-	useContext,
-	useEffect,
-	useMemo,
-	useState,
-} from 'react';
+import { createContext, type ReactNode, useContext, useMemo, useState } from 'react';
+import { kittiesData, puppiesData } from './mockedData';
 import type { PictureContextValues, PictureInfo } from './type';
 
 const PictureContext = createContext<PictureContextValues | null>(null);
@@ -16,39 +9,17 @@ interface PictureProviderProps {
 }
 
 export const PictureProvider = ({ children }: PictureProviderProps) => {
-	const [pictures, setPictures] = useState<PictureInfo[]>([]);
-	const [selectedIds, setSelectedIds] = useState<string[]>([]);
-	const [catPictures, setCatPictures] = useState<PictureInfo[]>([]);
-	const [dogPictures, setDogPictures] = useState<PictureInfo[]>([]);
-
-	const handleToggle = useCallback(
-		(id: string) => {
-			const isIdInArray = selectedIds.includes(id);
-			if (isIdInArray) {
-				setSelectedIds((currentIds) => currentIds.filter((currentID) => currentID !== id));
-			} else {
-				setSelectedIds((currentIds) => [...currentIds, id]);
-			}
-		},
-		[selectedIds],
-	);
-
-	useEffect(() => {
-		setPictures([...catPictures, ...dogPictures]);
-	}, [catPictures, dogPictures]);
+	const [catPictures] = useState<PictureInfo[]>(kittiesData);
+	const [dogPictures] = useState<PictureInfo[]>(puppiesData);
+	const pictures = useMemo(() => [...catPictures, ...dogPictures], [catPictures, dogPictures]);
 
 	const contextValue: PictureContextValues = useMemo(
 		() => ({
-			onTogglePicture: handleToggle,
 			catPictures,
 			dogPictures,
-			setCatPictures,
-			setDogPictures,
-			selectedIds,
 			pictures,
-			setSelectedIds,
 		}),
-		[handleToggle, catPictures, dogPictures, selectedIds, pictures],
+		[catPictures, dogPictures, pictures],
 	);
 
 	return <PictureContext.Provider value={contextValue}>{children}</PictureContext.Provider>;

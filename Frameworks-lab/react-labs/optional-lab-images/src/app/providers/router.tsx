@@ -1,13 +1,11 @@
-import { createBrowserRouter, Outlet } from 'react-router';
-import { appRoutes } from './appRoutes.routes';
-import { MainLayout } from '@widgets/layout/MainLayout';
-import { DividedLayout } from '@widgets/layout/DividedLayout';
 import { KittiesPage } from '@pages/KittiesPage';
 import { PuppiesPage } from '@pages/PuppiesPage';
-
-const Welcome = () => {
-	return <div>Welcome</div>;
-};
+import { DividedLayout } from '@widgets/layout/DividedLayout';
+import { MainLayout } from '@widgets/layout/MainLayout';
+import { createBrowserRouter, Outlet } from 'react-router';
+import { appRoutes } from './appRoutes.routes';
+import { CheckoutPage } from '@pages/CheckoutPage';
+import { WelcomePage } from '@pages/WelcomePage';
 
 const SelectProductRoutes = () => {
 	return (
@@ -21,7 +19,7 @@ export const appRouter = createBrowserRouter([
 	{
 		element: <MainLayout />,
 		children: [
-			{ path: '*', element: <Welcome /> },
+			{ path: '*', element: <WelcomePage /> },
 			{
 				element: <SelectProductRoutes />,
 				children: [
@@ -29,6 +27,7 @@ export const appRouter = createBrowserRouter([
 					{ path: appRoutes.puppies, element: <PuppiesPage /> },
 				],
 			},
+			{ path: appRoutes.checkout, element: <CheckoutPage /> },
 		],
 	},
 ]);

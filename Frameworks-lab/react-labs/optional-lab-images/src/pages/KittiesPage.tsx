@@ -1,19 +1,15 @@
-import { kittiesData } from '@entities/picture/model/mockedData';
+import { useCartModel } from '@entities/cart/model/cartContext';
 import { usePictureModel } from '@entities/picture/model/pictureContext';
 import { PictureList } from '@widgets/picture-list/PictureList';
-import { useEffect } from 'react';
 
 export const KittiesPage = () => {
-	const { catPictures, selectedIds, onTogglePicture, setCatPictures } = usePictureModel();
-
-	useEffect(() => {
-		setCatPictures(kittiesData);
-	}, [setCatPictures]);
+	const { catPictures } = usePictureModel();
+	const { toggleCartItem, selectedIds } = useCartModel();
 
 	return (
 		<PictureList
 			pictureList={catPictures}
-			onTogglePicture={onTogglePicture}
+			onTogglePicture={toggleCartItem}
 			selectedPictures={selectedIds}
 		/>
 	);
