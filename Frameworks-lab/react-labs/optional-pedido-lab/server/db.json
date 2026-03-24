@@ -1,0 +1,103 @@
+{
+  "pedidos": [
+    {
+      "id": "PED-001",
+      "client": "Tech Supplies Inc.",
+      "date": "2026-03-23",
+      "lines": [
+        {
+          "id": 1,
+          "state": "Valido",
+          "description": "Reactivos maquinaria",
+          "amount": 2345
+        },
+        {
+          "id": 2,
+          "state": "Pendiente",
+          "description": "Recambios impresión",
+          "amount": 135
+        },
+        {
+          "id": 3,
+          "state": "Pendiente",
+          "description": "Soportes plataforma",
+          "amount": 540
+        }
+      ]
+    }, {
+      "id": "PED-002",
+      "client": "Distribuidora de Motos S.A.",
+      "date": "2026-03-24",
+      "lines": [
+        {
+          "id": 1,
+          "state": "Pendiente",
+          "description": "Neumático trasero para 150cc",
+          "amount": 120
+        },
+        {
+          "id": 2,
+          "state": "Valido",
+          "description": "Kit de arrastre",
+          "amount": 85
+        },
+        {
+          "id": 3,
+          "state": "Pendiente",
+          "description": "Aceite sintético 4T",
+          "amount": 25
+        }
+      ]
+    },
+    {
+      "id": "PED-003",
+      "client": "Equipos Fitness Pro",
+      "date": "2026-03-25",
+      "lines": [
+        {
+          "id": 1,
+          "state": "Valido",
+          "description": "Set de mancuernas ajustables",
+          "amount": 150
+        },
+        {
+          "id": 2,
+          "state": "Valido",
+          "description": "Banco de musculación",
+          "amount": 200
+        }
+      ]
+    },
+    {
+      "id": "PED-004",
+      "client": "Electro & Tech Global",
+      "date": "2026-03-26",
+      "lines": [
+        {
+          "id": 1,
+          "state": "Pendiente",
+          "description": "Lector electrónico (Tipo Kindle)",
+          "amount": 130
+        },
+        {
+          "id": 2,
+          "state": "Valido",
+          "description": "Tablet Samsung de 11 pulgadas",
+          "amount": 350
+        },
+        {
+          "id": 3,
+          "state": "Pendiente",
+          "description": "Suscripción anual a curso de Web Dev",
+          "amount": 45
+        },
+        {
+          "id": 4,
+          "state": "Pendiente",
+          "description": "Arena premium para gatos (10kg)",
+          "amount": 30
+        }
+      ]
+    }
+  ]
+}
