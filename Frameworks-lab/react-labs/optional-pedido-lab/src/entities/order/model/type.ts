@@ -27,8 +27,23 @@ export interface LineEntity {
 }
 
 export interface OrderContextValue {
-	state: number;
+	orderCompletionPercentage: number;
+	isLoading: boolean;
+	error: string | null;
 	orderInfo: OrderEntity;
 	totalAmount: number;
 	loadOrder: (orderId: string) => void;
+	ToggleLineState: (lineId: string) => void;
 }
+
+export interface OrderState {
+	orderInfo: OrderEntity;
+	isLoading: boolean;
+	error: string | null;
+}
+
+export type OrderAction =
+	| { type: 'FETCH_START' }
+	| { type: 'FETCH_SUCCESS'; payload: OrderEntity }
+	| { type: 'FETCH_ERROR'; payload: string }
+	| { type: 'TOOGGLE_LINE'; payload: string };

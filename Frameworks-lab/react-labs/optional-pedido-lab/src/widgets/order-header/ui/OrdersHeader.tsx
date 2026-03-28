@@ -5,10 +5,9 @@ import { useEffect } from 'react';
 
 export const OrdersHeader = () => {
 	const { id: orderId } = useParams();
-	const { totalAmount, orderInfo, state, loadOrder } = useOrderModel();
+	const { totalAmount, orderInfo, orderCompletionPercentage: state, loadOrder } = useOrderModel();
 
 	useEffect(() => {
-		console.log(orderId);
 		if (orderId) {
 			loadOrder(orderId);
 		}

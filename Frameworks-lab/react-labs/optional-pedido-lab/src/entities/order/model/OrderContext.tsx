@@ -1,43 +1,92 @@
-import { createContext, type ReactNode, useCallback, useContext, useMemo, useState } from 'react';
+import { createContext, type ReactNode, useCallback, useContext, useMemo, useReducer } from 'react';
 import { getOrder } from '../api/getOrder';
-import type { OrderContextValue, OrderEntity } from './type';
+import type { OrderAction, OrderContextValue, OrderState } from './type';
 
 const orderContext = createContext<OrderContextValue | null>(null);
-const createEmptyOrder = (): OrderEntity => ({
-	client: '',
-	date: new Date(),
-	id: 'PED-001',
-	lines: [],
+const createInitialState = (): OrderState => ({
+	orderInfo: { client: '', date: new Date(), id: 'PED-001', lines: [] },
+	isLoading: false,
+	error: null,
 });
 
+const orderReducer = (state: OrderState, action: OrderAction): OrderState => {
+	switch (action.type) {
+		case 'FETCH_START':
+			return { ...state, isLoading: true, error: null };
+		case 'FETCH_SUCCESS':
+			return { ...state, isLoading: false, orderInfo: action.payload, error: null };
+		case 'FETCH_ERROR':
+			return { ...state, isLoading: false, error: action.payload };
+		case 'TOOGGLE_LINE':
+			return {
+				...state,
+				orderInfo: {
+					...state.orderInfo,
+					lines: state.orderInfo.lines.map((line) => {
+						if (line.id === action.payload) {
+							return { ...line, state: line.state === 'Valido' ? 'Pendiente' : 'Valido' };
+						}
+						return line;
+					}),
+				},
+			};
+		default:
+			return state;
+	}
+};
+
 export const OrderContextProvider = ({ children }: { children: ReactNode }) => {
-	const [orderInfo, setOrderInfo] = useState<OrderEntity>(createEmptyOrder());
+	const [state, dispatch] = useReducer(orderReducer, createInitialState());
+
+	const ToggleLineState = useCallback((lineId: string) => {
+		dispatch({ type: 'TOOGGLE_LINE', payload: lineId });
+	}, []);
 
 	const totalAmount = useMemo(() => {
-		return orderInfo?.lines.reduce((acc, line) => {
+		return state.orderInfo.lines.reduce((acc, line) => {
 			return line.amount + acc;
 		}, 0);
-	}, [orderInfo]);
+	}, [state.orderInfo]);
 
-	const state = useMemo(() => {
-		if (orderInfo) {
-			return (
-				orderInfo?.lines.filter((line) => line.state === 'Valido').length / orderInfo?.lines.length
-			);
-		} else {
-			return 0;
-		}
-	}, [orderInfo]);
+	const orderCompletionPercentage = useMemo(() => {
+		const totalLines = state.orderInfo.lines.length;
+		if (totalLines === 0) return 0;
+
+		const validateLinesCount = state.orderInfo.lines.filter(
+			(line) => line.state === 'Valido',
+		).length;
+		return validateLinesCount / state.orderInfo.lines.length;
+	}, [state.orderInfo]);
 
 	const loadOrder = useCallback(async (orderId: string) => {
-		console.log(orderId);
-		const fetchedOrderInfo = await getOrder(orderId);
-		setOrderInfo(fetchedOrderInfo);
+		dispatch({ type: 'FETCH_START' });
+		try {
+			const fetchedOrderInfo = await getOrder(orderId);
+			dispatch({ type: 'FETCH_SUCCESS', payload: fetchedOrderInfo });
+		} catch (error) {
+			dispatch({ type: 'FETCH_ERROR', payload: `Failed to load order data ${error}` });
+		}
 	}, []);
 
 	const contextValue = useMemo(
-		() => ({ loadOrder, orderInfo, totalAmount, state }),
-		[loadOrder, orderInfo, totalAmount, state],
+		() => ({
+			loadOrder,
+			orderInfo: state.orderInfo,
+			totalAmount,
+			orderCompletionPercentage,
+			isLoading: state.isLoading,
+			error: state.error,
+			ToggleLineState,
+		}),
+		[
+			loadOrder,
+			state.orderInfo,
+			totalAmount,
+			orderCompletionPercentage,
+			state.isLoading,
+			state.error,
+			ToggleLineState,
+		],
 	);
 	return <orderContext.Provider value={contextValue}>{children}</orderContext.Provider>;
 };
