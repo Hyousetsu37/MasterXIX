@@ -25,25 +25,32 @@ export interface LineEntity {
 	description: string;
 	amount: number;
 }
-
-export interface OrderContextValue {
+export interface OrderStateContextValue {
 	orderCompletionPercentage: number;
 	isLoading: boolean;
 	error: string | null;
 	orderInfo: OrderEntity;
 	totalAmount: number;
+	selectedLines: string[];
+}
+export interface OrderDispatchContextValue {
 	loadOrder: (orderId: string) => void;
-	ToggleLineState: (lineId: string) => void;
+	toggleCheckbox: (lineId: string) => void;
+	changeLineState: (newState: LineState) => void;
+	changeLineAmount: (lineId: string, newAmount: number) => void;
 }
 
 export interface OrderState {
 	orderInfo: OrderEntity;
 	isLoading: boolean;
 	error: string | null;
+	selectedLines: string[];
 }
 
 export type OrderAction =
 	| { type: 'FETCH_START' }
 	| { type: 'FETCH_SUCCESS'; payload: OrderEntity }
 	| { type: 'FETCH_ERROR'; payload: string }
-	| { type: 'TOOGGLE_LINE'; payload: string };
+	| { type: 'TOGGLE_CHECKBOX'; payload: string }
+	| { type: 'CHANGE_LINE_STATE'; payload: LineState }
+	| { type: 'CHANGE_LINE_AMOUNT'; payload: { lineId: string; newAmount: number } };
