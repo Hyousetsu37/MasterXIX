@@ -1,4 +1,5 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, effect, Injectable, signal } from '@angular/core';
+import { delay, Observable, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -16,28 +17,33 @@ export class Auth {
       this._isLogged.set(true)
       this._username.set(savedUser)
     }
+
+    effect(()=>{
+      const user = this._username();
+      if(user){
+        localStorage.setItem('currentUser', user)
+      } else{
+        localStorage.removeItem('currentUser')
+      }
+    })
   }
 
-  login(credentials:{username:string, password:string}):boolean{
-    if(credentials.username ==='master@lemoncode.net' && credentials.password ==='12345678'){
-      this.loggedIn = true
-      this.username = credentials.username
-      localStorage.setItem('currentUser',credentials.username)
-      return true
-    }
-    return false
+  login(credentials:{username:string, password:string}):Observable<boolean>{
+
+    const isValid = credentials.username ==='master@lemoncode.net' && credentials.password ==='12345678'
+    return of(isValid).pipe(
+      delay(2000),
+      tap(valid=>{
+        if(valid){
+          this._isLogged.set(true)
+          this._username.set(credentials.username)
+        }
+      })
+    )
   }
 
   logout():void{
-    this.loggedIn = false
-    this.username = ''
-    localStorage.removeItem('currentUser')
-  }
-
-  isLogged():boolean{
-    return this.loggedIn
-  }
-  getUsername():string{
-    return this.username
+    this._isLogged.set(false)
+    this._username.set('')
   }
 }

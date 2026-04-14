@@ -26,7 +26,13 @@
                         <mat-error>Minimo 6 caracteres</mat-error>
                     }
                 </mat-form-field>
-                <button mat-raised-button color="primary" type="submit" class="full-width">Entrar</button>
+               <button mat-raised-button color="primary" type="submit" class="full-width" [disabled]="isLoading()">
+                 @if (isLoading()) {
+                    <mat-spinner diameter="20" style="margin: 0 auto;"></mat-spinner>
+                    } @else {
+                        Entrar
+                    }
+               </button>
             </form>
         </mat-card-content>
     </mat-card>

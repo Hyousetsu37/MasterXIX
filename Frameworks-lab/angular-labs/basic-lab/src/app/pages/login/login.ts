@@ -1,14 +1,15 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { Auth } from '../../services/auth';
 import { Router } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule,MatCardModule,MatInputModule,MatButtonModule],
+  imports: [ReactiveFormsModule,MatCardModule,MatInputModule,MatButtonModule, MatProgressSpinnerModule],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
@@ -17,6 +18,8 @@ export class Login {
   private authService = inject(Auth)
   private router = inject(Router)
 
+  isLoading = signal(false)
+
   loginForm = this.formBuilder.group({
     username: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]]
@@ -24,19 +27,25 @@ export class Login {
 
   onSubmit(){
     if(this.loginForm.valid){
-      const username = this.loginForm.value.username as string
-      const password = this.loginForm.value.password as string
-      const isValid = this.authService.login({username, password})
+      this.isLoading.set(true)
+      const {password,username} = this.loginForm.getRawValue()
 
-      if(isValid){
-        console.log('Login exitoso, redirigiendo al dashboard...')
-        this.router.navigate(['/dashboard'])
-      } else{
-        alert('Credenciales incorrectas intenta con master@lemoncode.net y 123456')
-      }
-
-
-    } else{
+      this.authService.login({
+        username:username!, password:password!
+      }).subscribe({
+        next:(success)=>{
+          this.isLoading.set(false);
+          if(success){
+            this.router.navigate(['/dashboard'])
+          } else{
+            alert('Credentiales incorrectas')
+          }
+        }, error:()=>{
+          this.isLoading.set(false)
+          alert('Error en la conexion')
+        }
+      });
+    }else{
       this.loginForm.markAllAsTouched()
     }
   }

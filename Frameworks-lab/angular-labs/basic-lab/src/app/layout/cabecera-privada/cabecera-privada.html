@@ -6,7 +6,7 @@
   </div>
   
   <div style="display: flex; align-items: center; gap: 15px;">
-    <span>Hola, <strong>{{ authService.getUsername() }}</strong></span>
+    <span>Hola, <strong>{{ authService.username() }}</strong></span>
     <button mat-raised-button color="warn" (click)="onLogout()">
       Salir
     </button>
