@@ -1,12 +1,19 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { CabeceraPublica } from './layout/cabecera-publica/cabecera-publica';
+import { CabeceraPrivada } from './layout/cabecera-privada/cabecera-privada';
+import { MenuPublico } from './layout/menu-publico/menu-publico';
+import { MenuPrivado } from './layout/menu-privado/menu-privado';
+import { Pie } from './layout/pie/pie';
+import { Auth } from './services/auth';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone:true,
+  imports: [RouterOutlet, CabeceraPublica, CabeceraPrivada, MenuPublico, MenuPrivado,Pie],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('basic-lab');
+  authService = inject(Auth)
 }
